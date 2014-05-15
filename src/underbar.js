@@ -221,6 +221,17 @@ var _ = {};
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    // If no callback is provided, use _.identity function
+    if (typeof iterator !== 'function') {
+      iterator = _.identity;
+    }
+    return _.reduce(collection, function(wasTrue, item) {
+      if (wasTrue) {
+        return true;
+      }
+      // !! converts result to a boolean
+      return !!iterator(item);
+     }, false);
   };
 
 

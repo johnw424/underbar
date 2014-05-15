@@ -58,10 +58,8 @@ var _ = {};
       //Iterate through each index of the array
       for (var i = 0; i < collection.length; i++) {
         iterator(collection[i], i, collection);
-      }
-    
-    //Only strings and arrays have the length method
-    } else if (collection.length === undefined) {
+      }    
+    } else if (typeof collection === 'object') {
       //Iterate through each key of the object
       for (var key in collection) {
         iterator(collection[key], key, collection);
@@ -254,6 +252,12 @@ var _ = {};
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    _.each(arguments, function(objectArg) {
+      _.each(objectArg, function(value, key) {
+        obj[key] = value;
+      });
+    });
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
